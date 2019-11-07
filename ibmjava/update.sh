@@ -194,8 +194,8 @@ EOI
 print_ubi-min_pkg() {
 	cat >> $1 <<'EOI'
 
-RUN microdnf install openssl wget ca-certificates gzip tar \
-    && microdnf update; microdnf clean all
+RUN microdnf install -y openssl wget ca-certificates gzip tar \
+    && microdnf update -y; microdnf clean all
 
 EOI
 }
@@ -205,7 +205,7 @@ print_ubi_pkg() {
 	cat >> $1 <<'EOI'
 
 RUN yum install -y wget openssl ca-certificates gzip tar \
-    && yum update; yum clean all
+    && yum update -y; yum clean all
 
 EOI
 }
