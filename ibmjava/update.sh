@@ -21,35 +21,35 @@ version="8"
 package="jre sdk sfj"
 tools="maven"
 arches="i386 ppc64le s390 s390x x86_64"
-osver="ubuntu alpine rhel ubi-min"
+osver="ubuntu alpine rhel ubi ubi-min"
 
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
 declare -A jre_8_sums=(
-	[version]="1.8.0_sr5fp36"
-	[i386]="91ad8d9774a2130cbe63d4e0b01d5c3afef5ad8d69787cbfba6d21354a926854"
-	[ppc64le]="7a735879ae1d99807c5b7ca6c9dddceadd933e4775165003cccf13416e024f35"
-	[s390]="63f3f37a8fe6a40e3ed63415395609241adc7f0c23e82e17b4c75b03594d172c"
-	[s390x]="7d6ca19295fa1ba0afa29f417fefeb8033ce16a6ea7a46c68fa1126562364345"
-	[x86_64]="a002fedd653ab1eafc87a32b48c0afbc6ce4c87782b9784e0515a611e2cac01c"
+	[version]="1.8.0_sr5fp41"
+	[i386]="8f15496d333f601df999de95a83a3a7e589eaf3c582cb066f4b34cf6d59c7a20"
+	[ppc64le]="c32cd64fd82f8b3be051094f49351151dea6a6e11c593f74da28ddc500932624"
+	[s390]="128c354bc9ee576a19ee08b447688703b367c583cd77e12e95d2d0fc68086269"
+	[s390x]="bf2c0813b2de59151ea7715d8da91f0d0a32dedb74b58c3f2b84f84e7085df18"
+	[x86_64]="2fcaca3c9836220fc2b5a53f957d095fe2a4cdd8cff081da5c0fe8a4e7245f7c"
 )
 
 declare -A sdk_8_sums=(
-	[version]="1.8.0_sr5fp36"
-	[i386]="135ecae21a1f775b6b2297c49f78c2cf29e3fa23c969c0320811e07820337414"
-	[ppc64le]="b4c328942ced71e06bb15181657a661ef5b7c6ae84910a5a846d2bd6a977461b"
-	[s390]="2e6946d5c6075dfcd5ae330905d261b7dba9b9d0852fe9326867da710fa8f0a6"
-	[s390x]="6bfda59f37dce1542edbc4c1b8b0d5f4c412d4fc8890eae960e75208510583d3"
-	[x86_64]="548b35eb9677915df6819f9375567736de2ba6862e50ab1685a06becc943fa00"
+	[version]="1.8.0_sr5fp41"
+	[i386]="1aaf206c6eeb9d6501b4006c081fb2cf30f6d2ef2ce5568ba04e2ac42e897f77"
+	[ppc64le]="c625e54e80dd3e743dca0507708bcaee3435cfb7d1efc5960299449a4693a60b"
+	[s390]="38e07d464b89ae594dd049e89bc04fe0c6adce0e65dba926fc26f27c0cb93b94"
+	[s390x]="cd99fbfc86e3236d0de885890652ce0f5b7e4194a157aff6c8619b600fe0a934"
+	[x86_64]="6545147d99ed83124eb6f0091b262d97089ba41b2c8c7d8adc7836836af29658"
 )
 
 declare -A sfj_8_sums=(
-	[version]="1.8.0_sr5fp36"
-	[i386]="025da98d834f6becfa936c48a824a11c712f8434180fae6acfea294330e3db26"
-	[ppc64le]="e987bbdb92aad59c044f4a64fc5da6a3a357b26b309a9b7210d582beca8300a2"
-	[s390]="26abacbb90dc2c7456e3e7987c3192e1fc5118fda32b08bfe7c770680dc4ba34"
-	[s390x]="fe60dd6234a24711da00e1fec5532b9d3f67e66016bb493bed1847a5e08098f4"
-	[x86_64]="c8ee90fefae124bd5aadc27c1e9144b7f8d9a381b449f6c87ec6dab6f4b2cfe1"
+	[version]="1.8.0_sr5fp41"
+	[i386]="8560ddf237e14154ba3a7bbc8552038db5b12f4ca68136b5db2774851229308d"
+	[ppc64le]="07896e5226841a54e6d1f28c44516135a1d1eace1b0b603af3227209b0402d6e"
+	[s390]="1547e8261c65ef1ef4ffa11dfe61ac5f7e7c5974418e2947d44c7e38e4c022fc"
+	[s390x]="2aca7845df7fb33327a3a46e28880526fdb16cf33b16127ba1330a59683bad27"
+	[x86_64]="8d791449cd7a3075bb98e15ee03aa9f223e3df41b13af5426f91b08cf8e6c705"
 )
 
 # Version 9 sums [DO NO EDIT THIS LINE]
@@ -65,7 +65,7 @@ declare -A sdk_9_sums=(
 # Generate the common license and copyright header
 print_legal() {
 	cat > $1 <<-EOI
-	# (C) Copyright IBM Corporation 2016, 2018
+	# (C) Copyright IBM Corporation 2016, 2019
 	#
 	# ------------------------------------------------------------------------------
 	#               NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
@@ -92,7 +92,7 @@ print_legal() {
 # Print the supported Ubuntu OS
 print_ubuntu_os() {
 	cat >> $1 <<-EOI
-	FROM ubuntu:16.04
+	FROM ubuntu:18.04
 
 	EOI
 }
@@ -100,7 +100,7 @@ print_ubuntu_os() {
 # Print the supported Alpine OS
 print_alpine_os() {
 	cat >> $1 <<-EOI
-	FROM alpine:3.7
+	FROM alpine:3.10
 
 	EOI
 }
@@ -116,7 +116,15 @@ print_rhel_os() {
 # Print the supported UBI Minimal OS
 print_ubi-min_os() {
 	cat >> $1 <<-EOI
-	FROM registry.access.redhat.com/ubi7/ubi-minimal
+	FROM registry.access.redhat.com/ubi8/ubi-minimal
+
+	EOI
+}
+
+# Print the supported UBI Minimal OS
+print_ubi_os() {
+	cat >> $1 <<-EOI
+	FROM registry.access.redhat.com/ubi8/ubi
 
 	EOI
 }
@@ -124,7 +132,7 @@ print_ubi-min_os() {
 # Print the maintainer
 print_maint() {
 	cat >> $1 <<-EOI
-	MAINTAINER Dinakar Guniguntala <dinakar.g@in.ibm.com> (@dinogun)
+	MAINTAINER Jayashree Gopi <jayasg12@in.ibm.com> (@jayasg12)
 	EOI
 }
 
@@ -146,7 +154,7 @@ print_alpine_pkg() {
 COPY sgerrand.rsa.pub /etc/apk/keys
 
 RUN apk add --no-cache --virtual .build-deps curl binutils \
-    && GLIBC_VER="2.29-r0" \
+    && GLIBC_VER="2.30-r0" \
     && ALPINE_GLIBC_REPO="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
     && GCC_LIBS_URL="https://archive.archlinux.org/packages/g/gcc-libs/gcc-libs-8.2.1%2B20180831-1-x86_64.pkg.tar.xz" \
     && GCC_LIBS_SHA256=e4b39fb1f5957c5aab5c2ce0c46e03d30426f3b94b9992b009d417ff2d56af4d \
@@ -186,8 +194,18 @@ EOI
 print_ubi-min_pkg() {
 	cat >> $1 <<'EOI'
 
-RUN microdnf install openssl wget ca-certificates gzip tar && \
-    microdnf update; microdnf clean all
+RUN microdnf install openssl wget ca-certificates gzip tar \
+    && microdnf update; microdnf clean all
+
+EOI
+}
+
+# Select the ubi OS packages
+print_ubi_pkg() {
+	cat >> $1 <<'EOI'
+
+RUN yum install -y wget openssl ca-certificates gzip tar \
+    && yum update; yum clean all
 
 EOI
 }
@@ -199,17 +217,51 @@ print_env() {
 	jverinfo=${shasums}[version]
 	eval jver=\${$jverinfo}
 
-	cat >> $1 <<-EOI
+	if [ "${os}" == "ubi-min" -o "${os}" == "ubi" ]; then
+		cat >> $1 <<-EOI
+LABEL org.opencontainers.image.authors="Jayashree Gopi <jayasg12@in.ibm.com>" \\
+    name="IBM JAVA" \\
+    vendor="IBM" \\
+    version=${jver} \ 
+    release=${ver} \\
+    run="docker run --rm -ti <image_name:tag> /bin/bash" \\
+    summary="Image for IBM JAVA with UBI as the base image" \\
+    description="This image contains the IBM JAVA with Red Hat UBI as the base OS.  For more information on this image please see https://github.com/ibmruntimes/ci.docker/blob/master/README.md"
+EOI
+	fi
+		cat >> $1 <<-EOI
 
 ENV JAVA_VERSION ${jver}
 
 EOI
 }
 
-# OS independent portion (Works for both Alpine and Ubuntu)
+# OS independent portion (Works for UBI, Alpine and Ubuntu)
 # For Java 9 we use jlink to derive the JRE and the SFJ images.
 print_java_install() {
-	cat >> $1 <<-EOI
+	if [ "${os}" == "ubi" -o "${os}" == "ubi-min" ]; then
+		cat >> $1 <<-EOI
+       amd64|x86_64) \\
+         ESUM='$(sarray=${shasums}[x86_64]; eval esum=\${$sarray}; echo ${esum})'; \\
+         YML_FILE='${srcpkg}/linux/x86_64/index.yml'; \\
+         ;; \\
+       ppc64el|ppc64le) \\
+         ESUM='$(sarray=${shasums}[ppc64le]; eval esum=\${$sarray}; echo ${esum})'; \\
+         YML_FILE='${srcpkg}/linux/ppc64le/index.yml'; \\
+         ;; \\
+       s390x) \\
+         ESUM='$(sarray=${shasums}[s390x]; eval esum=\${$sarray}; echo ${esum})'; \\
+         YML_FILE='${srcpkg}/linux/s390x/index.yml'; \\
+         ;; \\
+       *) \\
+         echo "Unsupported arch: \${ARCH}"; \\
+         exit 1; \\
+         ;; \\
+    esac; \\
+    BASE_URL="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/"; \\
+EOI
+	else
+		cat >> $1 <<-EOI
        amd64|x86_64) \\
          ESUM='$(sarray=${shasums}[x86_64]; eval esum=\${$sarray}; echo ${esum})'; \\
          YML_FILE='${srcpkg}/linux/x86_64/index.yml'; \\
@@ -237,6 +289,8 @@ print_java_install() {
     esac; \\
     BASE_URL="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/"; \\
 EOI
+	fi
+
 	cat >> $1 <<'EOI'
     wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml ${BASE_URL}/${YML_FILE}; \
     JAVA_URL=$(sed -n '/^'${JAVA_VERSION}:'/{n;s/\s*uri:\s//p}'< /tmp/index.yml); \
@@ -251,6 +305,19 @@ EOI
     rm -f /tmp/response.properties; \
     rm -f /tmp/index.yml; \
 EOI
+	if [ "${os}" == "ubi" -o "${os}" == "ubi-min" ]; then
+		cat >> $1 <<'EOI'
+    mkdir -p /licenses; \
+    cp /opt/ibm/java/license_en.txt /licenses; \
+    chown -R 1001:0 /opt/ibm/java; \
+EOI
+	fi
+	if [ "${os}" == "ubi-min" ]; then
+	        cat >> $1 <<'EOI'
+    microdnf -y remove shadow-utils; \
+    microdnf clean all; \
+EOI
+	fi
 
 	# For Java 9 JRE, use jlink with the java.se.ee aggregator module.
 	if [ "${ver}" == "9" ]; then
@@ -330,7 +397,23 @@ print_ubi-min_java_install() {
 	shasums="${srcpkg}"_"${ver}"_sums
 	cat >> $1 <<'EOI'
 RUN set -eux; \
-    ARCH="$(arch)"; \
+    microdnf -y install shadow-utils; \
+    useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default; \
+    ARCH="$(uname -m)"; \
+    case "${ARCH}" in \
+EOI
+	print_java_install ${file} ${srcpkg} ${dstpkg};
+}
+
+# Print the main RUN command that installs Java on ubi.
+print_ubi_java_install() {
+	srcpkg=$2
+	dstpkg=$3
+	shasums="${srcpkg}"_"${ver}"_sums
+	cat >> $1 <<'EOI'
+RUN set -eux; \
+    useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default; \
+    ARCH="$(uname -m)"; \
     case "${ARCH}" in \
 EOI
 	print_java_install ${file} ${srcpkg} ${dstpkg};
@@ -371,6 +454,14 @@ EOI
 	fi
 }
 
+#print to run the docker image with user other than root.
+print_user() {
+	cat >> $1 <<-EOI
+
+USER 1001
+EOI
+}
+
 generate_java() {
 	if [ "${ver}" == "9" ]; then
 		srcpkg="sdk";
@@ -386,6 +477,8 @@ elif [ "${os}" == "alpine" ]; then
 		print_alpine_java_install ${file} ${srcpkg} ${dstpkg};
 elif [ "${os}" == "rhel" ]; then
 		print_rhel_java_install ${file} ${srcpkg} ${dstpkg};
+elif [ "${os}" == "ubi" ]; then
+		print_ubi_java_install ${file} ${srcpkg} ${dstpkg};
 elif [ "${os}" == "ubi-min" ]; then
 		print_ubi-min_java_install ${file} ${srcpkg} ${dstpkg};
 fi
@@ -429,15 +522,27 @@ generate_rhel() {
 	echo "done"
 }
 
+generate_ubi() {
+	file=$1
+	mkdir -p `dirname ${file}` 2>/dev/null
+	echo -n "Writing ${file}..."
+	print_legal ${file};
+	print_ubi_os ${file};
+	print_ubi_pkg ${file};
+	generate_java ${file};
+	print_user ${file};
+	echo "done"
+}
+
 generate_ubi-min() {
 	file=$1
 	mkdir -p `dirname ${file}` 2>/dev/null
 	echo -n "Writing ${file}..."
 	print_legal ${file};
 	print_ubi-min_os ${file};
-	print_maint ${file};
 	print_ubi-min_pkg ${file};
 	generate_java ${file};
+	print_user ${file};
 	echo "done"
 }
 
@@ -495,6 +600,8 @@ do
 				generate_alpine ${file}
 			elif [ "${os}" == "rhel" ]; then
 				generate_rhel ${file}
+			elif [ "${os}" == "ubi" ]; then
+				generate_ubi ${file}
 			elif [ "${os}" == "ubi-min" ]; then
 				generate_ubi-min ${file}
 			fi

@@ -19,11 +19,11 @@
 # limitations under the License.
 #
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal
+FROM registry.access.redhat.com/ubi8/ubi
 
 
-RUN microdnf install openssl wget ca-certificates gzip tar \
-    && microdnf update; microdnf clean all
+RUN yum install -y wget openssl ca-certificates gzip tar \
+    && yum update; yum clean all
 
 LABEL org.opencontainers.image.authors="Jayashree Gopi <jayasg12@in.ibm.com>" \
     name="IBM JAVA" \
@@ -37,21 +37,20 @@ LABEL org.opencontainers.image.authors="Jayashree Gopi <jayasg12@in.ibm.com>" \
 ENV JAVA_VERSION 1.8.0_sr5fp41
 
 RUN set -eux; \
-    microdnf -y install shadow-utils; \
     useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default; \
     ARCH="$(uname -m)"; \
     case "${ARCH}" in \
        amd64|x86_64) \
-         ESUM='6545147d99ed83124eb6f0091b262d97089ba41b2c8c7d8adc7836836af29658'; \
-         YML_FILE='sdk/linux/x86_64/index.yml'; \
+         ESUM='8d791449cd7a3075bb98e15ee03aa9f223e3df41b13af5426f91b08cf8e6c705'; \
+         YML_FILE='sfj/linux/x86_64/index.yml'; \
          ;; \
        ppc64el|ppc64le) \
-         ESUM='c625e54e80dd3e743dca0507708bcaee3435cfb7d1efc5960299449a4693a60b'; \
-         YML_FILE='sdk/linux/ppc64le/index.yml'; \
+         ESUM='07896e5226841a54e6d1f28c44516135a1d1eace1b0b603af3227209b0402d6e'; \
+         YML_FILE='sfj/linux/ppc64le/index.yml'; \
          ;; \
        s390x) \
-         ESUM='cd99fbfc86e3236d0de885890652ce0f5b7e4194a157aff6c8619b600fe0a934'; \
-         YML_FILE='sdk/linux/s390x/index.yml'; \
+         ESUM='2aca7845df7fb33327a3a46e28880526fdb16cf33b16127ba1330a59683bad27'; \
+         YML_FILE='sfj/linux/s390x/index.yml'; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
@@ -74,12 +73,10 @@ RUN set -eux; \
     mkdir -p /licenses; \
     cp /opt/ibm/java/license_en.txt /licenses; \
     chown -R 1001:0 /opt/ibm/java; \
-    microdnf -y remove shadow-utils; \
-    microdnf clean all; \
     rm -f /tmp/ibm-java.bin;
 
 ENV JAVA_HOME=/opt/ibm/java/jre \
-    PATH=/opt/ibm/java/bin:$PATH \
+    PATH=/opt/ibm/java/jre/bin:$PATH \
     IBM_JAVA_OPTIONS="-XX:+UseContainerSupport"
 
 USER 1001

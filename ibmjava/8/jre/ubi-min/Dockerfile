@@ -1,4 +1,4 @@
-# (C) Copyright IBM Corporation 2016, 2018
+# (C) Copyright IBM Corporation 2016, 2019
 #
 # ------------------------------------------------------------------------------
 #               NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
@@ -19,37 +19,38 @@
 # limitations under the License.
 #
 
-FROM registry.access.redhat.com/ubi7/ubi-minimal
-
-MAINTAINER Dinakar Guniguntala <dinakar.g@in.ibm.com> (@dinogun)
-
-RUN microdnf install openssl wget ca-certificates gzip tar && \
-    microdnf update; microdnf clean all
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 
-ENV JAVA_VERSION 1.8.0_sr5fp36
+RUN microdnf install openssl wget ca-certificates gzip tar \
+    && microdnf update; microdnf clean all
+
+LABEL org.opencontainers.image.authors="Jayashree Gopi <jayasg12@in.ibm.com>" \
+    name="IBM JAVA" \
+    vendor="IBM" \
+    version=1.8.0_sr5fp41 \ 
+    release=8 \
+    run="docker run --rm -ti <image_name:tag> /bin/bash" \
+    summary="Image for IBM JAVA with UBI as the base image" \
+    description="This image contains the IBM JAVA with Red Hat UBI as the base OS.  For more information on this image please see https://github.com/ibmruntimes/ci.docker/blob/master/README.md"
+
+ENV JAVA_VERSION 1.8.0_sr5fp41
 
 RUN set -eux; \
-    ARCH="$(arch)"; \
+    microdnf -y install shadow-utils; \
+    useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default; \
+    ARCH="$(uname -m)"; \
     case "${ARCH}" in \
        amd64|x86_64) \
-         ESUM='a002fedd653ab1eafc87a32b48c0afbc6ce4c87782b9784e0515a611e2cac01c'; \
+         ESUM='2fcaca3c9836220fc2b5a53f957d095fe2a4cdd8cff081da5c0fe8a4e7245f7c'; \
          YML_FILE='jre/linux/x86_64/index.yml'; \
          ;; \
-       i386) \
-         ESUM='91ad8d9774a2130cbe63d4e0b01d5c3afef5ad8d69787cbfba6d21354a926854'; \
-         YML_FILE='jre/linux/i386/index.yml'; \
-         ;; \
        ppc64el|ppc64le) \
-         ESUM='7a735879ae1d99807c5b7ca6c9dddceadd933e4775165003cccf13416e024f35'; \
+         ESUM='c32cd64fd82f8b3be051094f49351151dea6a6e11c593f74da28ddc500932624'; \
          YML_FILE='jre/linux/ppc64le/index.yml'; \
          ;; \
-       s390) \
-         ESUM='63f3f37a8fe6a40e3ed63415395609241adc7f0c23e82e17b4c75b03594d172c'; \
-         YML_FILE='jre/linux/s390/index.yml'; \
-         ;; \
        s390x) \
-         ESUM='7d6ca19295fa1ba0afa29f417fefeb8033ce16a6ea7a46c68fa1126562364345'; \
+         ESUM='bf2c0813b2de59151ea7715d8da91f0d0a32dedb74b58c3f2b84f84e7085df18'; \
          YML_FILE='jre/linux/s390x/index.yml'; \
          ;; \
        *) \
@@ -70,8 +71,15 @@ RUN set -eux; \
     /tmp/ibm-java.bin -i silent -f /tmp/response.properties; \
     rm -f /tmp/response.properties; \
     rm -f /tmp/index.yml; \
+    mkdir -p /licenses; \
+    cp /opt/ibm/java/license_en.txt /licenses; \
+    chown -R 1001:0 /opt/ibm/java; \
+    microdnf -y remove shadow-utils; \
+    microdnf clean all; \
     rm -f /tmp/ibm-java.bin;
 
 ENV JAVA_HOME=/opt/ibm/java/jre \
     PATH=/opt/ibm/java/jre/bin:$PATH \
     IBM_JAVA_OPTIONS="-XX:+UseContainerSupport"
+
+USER 1001

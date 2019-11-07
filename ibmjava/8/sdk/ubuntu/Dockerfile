@@ -1,4 +1,4 @@
-# (C) Copyright IBM Corporation 2016, 2018
+# (C) Copyright IBM Corporation 2016, 2019
 #
 # ------------------------------------------------------------------------------
 #               NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
@@ -19,37 +19,37 @@
 # limitations under the License.
 #
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-MAINTAINER Dinakar Guniguntala <dinakar.g@in.ibm.com> (@dinogun)
+MAINTAINER Jayashree Gopi <jayasg12@in.ibm.com> (@jayasg12)
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends wget ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION 1.8.0_sr5fp36
+ENV JAVA_VERSION 1.8.0_sr5fp41
 
 RUN set -eux; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        amd64|x86_64) \
-         ESUM='548b35eb9677915df6819f9375567736de2ba6862e50ab1685a06becc943fa00'; \
+         ESUM='6545147d99ed83124eb6f0091b262d97089ba41b2c8c7d8adc7836836af29658'; \
          YML_FILE='sdk/linux/x86_64/index.yml'; \
          ;; \
        i386) \
-         ESUM='135ecae21a1f775b6b2297c49f78c2cf29e3fa23c969c0320811e07820337414'; \
+         ESUM='1aaf206c6eeb9d6501b4006c081fb2cf30f6d2ef2ce5568ba04e2ac42e897f77'; \
          YML_FILE='sdk/linux/i386/index.yml'; \
          ;; \
        ppc64el|ppc64le) \
-         ESUM='b4c328942ced71e06bb15181657a661ef5b7c6ae84910a5a846d2bd6a977461b'; \
+         ESUM='c625e54e80dd3e743dca0507708bcaee3435cfb7d1efc5960299449a4693a60b'; \
          YML_FILE='sdk/linux/ppc64le/index.yml'; \
          ;; \
        s390) \
-         ESUM='2e6946d5c6075dfcd5ae330905d261b7dba9b9d0852fe9326867da710fa8f0a6'; \
+         ESUM='38e07d464b89ae594dd049e89bc04fe0c6adce0e65dba926fc26f27c0cb93b94'; \
          YML_FILE='sdk/linux/s390/index.yml'; \
          ;; \
        s390x) \
-         ESUM='6bfda59f37dce1542edbc4c1b8b0d5f4c412d4fc8890eae960e75208510583d3'; \
+         ESUM='cd99fbfc86e3236d0de885890652ce0f5b7e4194a157aff6c8619b600fe0a934'; \
          YML_FILE='sdk/linux/s390x/index.yml'; \
          ;; \
        *) \
